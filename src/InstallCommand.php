@@ -34,7 +34,7 @@ class InstallCommand extends BaseConsoleCommand
         $params = (object) $input->getArguments();
 
         $rootPath = realpath(dirname(__FILE__) . '/../app/');
-        $targetPath = app_path() . $this->context;
+        $targetPath = app_path() . $params->context;
 
         try {
             $installer = new BundleInstaller($rootPath, $targetPath, self::DEFAULT_CONTEXT, $params->context);
