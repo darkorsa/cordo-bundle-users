@@ -45,7 +45,7 @@ class InstallCommand extends BaseConsoleCommand
                 "App\\{$params->context}\\Acl\Domain\Acl"
             );
         } catch (BundleInstallerException $e) {
-            $this->output->writeln("<error>{$e->getMessage()}</error>");
+            $output->writeln("<error>{$e->getMessage()}</error>");
             return 0;
         }
 
