@@ -21,7 +21,7 @@ class AclRoutes extends RoutesRegister
     {
         $this->router->addRoute(
             'GET',
-            "/context-acl",
+            "/context/acl",
             'App\Context\Acl\UI\Http\Controller\UserAclQueriesController@index'
         );
     }
@@ -30,7 +30,7 @@ class AclRoutes extends RoutesRegister
     {
         $this->router->addRoute(
             'GET',
-            "/context-acl/" . static::UUID_PATTERN,
+            "/context/acl/" . static::UUID_PATTERN,
             'App\Context\Acl\UI\Http\Controller\UserAclQueriesController@get'
         );
     }
@@ -39,7 +39,7 @@ class AclRoutes extends RoutesRegister
     {
         $this->router->addRoute(
             'POST',
-            "/context-acl",
+            "/context/acl",
             'App\Context\Acl\UI\Http\Controller\UserAclCommandsController@create'
         );
     }
@@ -48,7 +48,7 @@ class AclRoutes extends RoutesRegister
     {
         $this->router->addRoute(
             'PUT',
-            "/context-acl/" . static::UUID_PATTERN,
+            "/context/acl/" . static::UUID_PATTERN,
             'App\Context\Acl\UI\Http\Controller\UserAclCommandsController@update'
         );
     }
@@ -57,7 +57,7 @@ class AclRoutes extends RoutesRegister
     {
         $this->router->addRoute(
             'DELETE',
-            "/context-acl/" . static::UUID_PATTERN,
+            "/context/acl/" . static::UUID_PATTERN,
             'App\Context\Acl\UI\Http\Controller\UserAclCommandsController@delete'
         );
     }
