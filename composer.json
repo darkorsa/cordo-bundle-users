@@ -2,10 +2,14 @@
     "name": "darkorsa/cordo-bundle-users",
     "description": "Users bundle for Cordo microframework",
     "license": "MIT",
-    "require": {},
+    "require": {
+        "darkorsa/cordo-core": "^0.15"
+    },
     "autoload": {
         "psr-4": {
             "Cordo\\Bundle\\Users\\": "src"
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
