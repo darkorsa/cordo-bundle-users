@@ -12,14 +12,16 @@ class UsersRoutes extends RoutesRegister
 {
     public function register(): void
     {
-        $this->addGetUsers();
-        $this->addGetUser();
-        $this->addCreateUser();
-        $this->addUpdateUser();
-        $this->addDeleteUser();
+        (new AuthRoutes($this->router, $this->container, $this->resource))->register();
+
+        $this->getUsersRoute();
+        $this->getUserRoute();
+        $this->createUserRoute();
+        $this->updateUserRoute();
+        $this->deleteUserRoute();
     }
 
-    private function addGetUsers(): void
+    private function getUsersRoute(): void
     {
         /**
          * @api {get} /context/users Get users list
@@ -58,11 +60,11 @@ class UsersRoutes extends RoutesRegister
             'GET',
             "/context/users",
             'App\Context\Users\UI\Http\Controller\UserQueriesController@index',
-            [new AclMiddleware($this->container, 'context\users')]
+            [new AclMiddleware($this->container, $this->resource)]
         );
     }
 
-    private function addGetUser(): void
+    private function getUserRoute(): void
     {
         /**
          * @api {get} /context/users/:id Get user
@@ -100,11 +102,11 @@ class UsersRoutes extends RoutesRegister
             'GET',
             "/context/users/" . static::UUID_PATTERN,
             'App\Context\Users\UI\Http\Controller\UserQueriesController@get',
-            [new AclMiddleware($this->container, 'context\users')]
+            [new AclMiddleware($this->container, $this->resource)]
         );
     }
 
-    private function addCreateUser(): void
+    private function createUserRoute(): void
     {
         /**
          * @api {post} /context/users Create new user
@@ -137,11 +139,11 @@ class UsersRoutes extends RoutesRegister
             'POST',
             "/context/users",
             'App\Context\Users\UI\Http\Controller\UserCommandsController@create',
-            [new AclMiddleware($this->container, 'context\users')]
+            [new AclMiddleware($this->container, $this->resource)]
         );
     }
 
-    private function addUpdateUser()
+    private function updateUserRoute()
     {
         /**
          * @api {put} /context/users Update user
@@ -175,13 +177,13 @@ class UsersRoutes extends RoutesRegister
             "/context/users",
             'App\Context\Users\UI\Http\Controller\UserCommandsController@update',
             [
-                new OAuth2Middleware($this->container, 'context\users'),
-                new AclMiddleware($this->container, 'context\users')
+                new OAuth2Middleware($this->container, $this->resource),
+                new AclMiddleware($this->container, $this->resource)
             ]
         );
     }
 
-    private function addDeleteUser(): void
+    private function deleteUserRoute(): void
     {
         /**
          * @api {delete} /context/users/:id Delete user
@@ -205,8 +207,8 @@ class UsersRoutes extends RoutesRegister
             "/context/users",
             'App\Context\Users\UI\Http\Controller\UserCommandsController@delete',
             [
-                new OAuth2Middleware($this->container, 'context\users'),
-                new AclMiddleware($this->container, 'context\users')
+                new OAuth2Middleware($this->container, $this->resource),
+                new AclMiddleware($this->container, $this->resource)
             ]
         );
     }

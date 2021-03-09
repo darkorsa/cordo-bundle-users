@@ -12,10 +12,8 @@ class UsersAcl extends AclRegister
 {
     public function register(): void
     {
-        $resource = 'context\users';
-
-        $this->acl->addResource(new Resource($resource))
-            ->allow(SystemRole::GUEST(), $resource)
-            ->allow(SystemRole::LOGGED(), $resource);
+        $this->acl->addResource(new Resource($this->resource))
+            ->allow(SystemRole::GUEST(), $this->resource)
+            ->allow(SystemRole::LOGGED(), $this->resource);
     }
 }

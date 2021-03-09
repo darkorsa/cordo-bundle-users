@@ -14,8 +14,6 @@ class AclMiddleware implements MiddlewareInterface
 {
     private const HTTP_UNAUTHORIZED = 401;
 
-    private $container;
-
     private $acl;
 
     private $service;
@@ -26,7 +24,6 @@ class AclMiddleware implements MiddlewareInterface
 
     public function __construct(ContainerInterface $container, string $resource, ?string $privilage = null)
     {
-        $this->container = $container;
         $this->acl = $container->get('acl');
         $this->service = $container->get('context.acl.query.service');
         $this->resource = $resource;

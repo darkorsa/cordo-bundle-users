@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Context\Shared\UI\Http\Auth;
+namespace App\Context\Users\UI\Http\Auth;
 
 use Doctrine\DBAL\Connection;
 use OAuth2\Storage\UserCredentialsInterface;

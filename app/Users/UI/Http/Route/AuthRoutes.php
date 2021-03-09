@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Context\Auth\UI\Http\Route;
+namespace App\Context\Users\UI\Http\Route;
 
 use OAuth2\Request;
 use Cordo\Core\Application\Service\Register\RoutesRegister;
@@ -11,16 +11,10 @@ class AuthRoutes extends RoutesRegister
 {
     public function register(): void
     {
-        $this->addOauthToken();
-        $this->addOauthTokenRefresh();
-    }
-
-    private function addOauthToken(): void
-    {
         /**
-         * @api {post} /context-auth/token Generate auth token
-         * @apiName AuthToken
-         * @apiGroup ContextAuth
+         * @api {post} /context/users/token Generate auth token
+         * @apiName ContextUsersToken
+         * @apiGroup ContextUsers
          *
          * @apiParam {String} [username] Username
          * @apiParam {String} [password] Password
@@ -40,11 +34,11 @@ class AuthRoutes extends RoutesRegister
          */
         $this->router->addRoute(
             'POST',
-            '/context-auth/token',
+            '/context/users/token',
             function () {
                 $request = Request::createFromGlobals();
 
-                $response = $this->container->get('context_oauth_server')->handleTokenRequest($request);
+                $response = $this->container->get('context\users_oauth_server')->handleTokenRequest($request);
 
                 if ($response->getStatusText() === 'OK') {
                     $response->setParameter('login', $request->request('username'));
@@ -54,19 +48,14 @@ class AuthRoutes extends RoutesRegister
                 die;
             }
         );
-    }
 
-    private function addOauthTokenRefresh(): void
-    {
         /**
-         * @api {post} /context-auth/token-refresh Refresh auth token
-         * @apiName RefreshAuthToken
-         * @apiGroup ContextAuth
+         * @api {post} /context/users/token-refresh Refresh auth token
+         * @apiName ContextUsersRefreshToken
+         * @apiGroup ContextUsers
          *
-         * @apiParam {String} [username] Username
-         * @apiParam {String} [password] Password
-         * @apiParam {String} [grant_type] Grant type (default value 'password')
-         * @apiParam {String} [client_id] Client ID - default value is 'Cordo', can be changed in oauth_clients db table
+         * @apiParam {String} [access_token] Access token
+         * @apiParam {String} [refresh_token] Refresh token
          *
          * @apiSuccessExample Success-Response:
          * HTTP/1.1 200 OK
@@ -81,10 +70,10 @@ class AuthRoutes extends RoutesRegister
          */
         $this->router->addRoute(
             'POST',
-            '/context-auth/token-refresh',
+            '/context/users/token-refresh',
             function () {
                 $response = $this->container
-                    ->get('context_oauth_server')
+                    ->get('context\users_oauth_server')
                     ->handleTokenRequest(Request::createFromGlobals());
                 $response->send();
                 die;

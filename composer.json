@@ -3,7 +3,7 @@
     "description": "Users bundle for Cordo microframework",
     "license": "MIT",
     "require": {
-        "darkorsa/cordo-core": "^0.15"
+        "darkorsa/cordo-core": "^0.16"
     },
     "autoload": {
         "psr-4": {
