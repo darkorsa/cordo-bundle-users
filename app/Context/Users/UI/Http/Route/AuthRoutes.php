@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Context\Users\UI\Http\Route;
 
 use OAuth2\Request;
+use GuzzleHttp\Psr7\Response;
 use Cordo\Core\Application\Service\Register\RoutesRegister;
 
 class AuthRoutes extends RoutesRegister
@@ -16,10 +17,10 @@ class AuthRoutes extends RoutesRegister
          * @apiName ContextUsersToken
          * @apiGroup ContextUsers
          *
-         * @apiParam {String} [username] Username
-         * @apiParam {String} [password] Password
-         * @apiParam {String} [grant_type] Grant type (default value 'password')
-         * @apiParam {String} [client_id] Client ID - default value is 'Cordo', can be changed in oauth_clients db table
+         * @apiParam {String} username Username
+         * @apiParam {String} password Password
+         * @apiParam {String} grant_type="password" Grant type
+         * @apiParam {String} client_id="Cordo" Client ID
          *
          * @apiSuccessExample Success-Response:
          * HTTP/1.1 200 OK
@@ -44,8 +45,7 @@ class AuthRoutes extends RoutesRegister
                     $response->setParameter('login', $request->request('username'));
                 }
 
-                $response->send();
-                die;
+                return new Response($response->getStatusCode(), [], json_encode($response->getParameters()));
             }
         );
 
@@ -54,8 +54,11 @@ class AuthRoutes extends RoutesRegister
          * @apiName ContextUsersRefreshToken
          * @apiGroup ContextUsers
          *
-         * @apiParam {String} [access_token] Access token
-         * @apiParam {String} [refresh_token] Refresh token
+         * @apiParam {String} access_token Access token
+         * @apiParam {String} refresh_token Refresh token
+         * @apiParam {String} grant_type="refresh_token" Grant type
+         * @apiParam {String} client_id="Cordo" Client ID
+
          *
          * @apiSuccessExample Success-Response:
          * HTTP/1.1 200 OK
@@ -65,7 +68,6 @@ class AuthRoutes extends RoutesRegister
          *   "token_type": "Bearer",
          *   "scope": null,
          *   "refresh_token": "6edc70d399c9594c693429554ae9067d49735419",
-         *   "login": "user@email.com"
          * }
          */
         $this->router->addRoute(
@@ -75,8 +77,8 @@ class AuthRoutes extends RoutesRegister
                 $response = $this->container
                     ->get('context\users_oauth_server')
                     ->handleTokenRequest(Request::createFromGlobals());
-                $response->send();
-                die;
+
+                return new Response($response->getStatusCode(), [], json_encode($response->getParameters()));
             }
         );
     }

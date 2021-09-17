@@ -33,7 +33,7 @@ class InstallCommand extends BaseConsoleCommand
     {
         $params = (object) $input->getArguments();
 
-        $rootPath = realpath(dirname(__FILE__) . '/../app/');
+        $rootPath = realpath(dirname(__FILE__) . '/../app/' . self::DEFAULT_CONTEXT . '/');
         $targetPath = app_path() . $params->context;
 
         try {
