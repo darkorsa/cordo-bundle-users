@@ -38,12 +38,7 @@ class UserDoctrineQuery extends BaseQuery implements UserQuery
 
         $usersData = $this->all($queryBuilder, new UserDoctrineFilter($userFilter));
 
-        $collection = new ArrayCollection();
-        array_map(static function (array $userData) use ($collection) {
-            $collection->add(UserView::fromArray($userData));
-        }, $usersData);
-
-        return $collection;
+        return $this->createCollection($usersData, UserView::class);
     }
 
     private function getOneByQuery(QueryBuilder $queryBuilder, ?QueryFilterInterface $userFilter = null): UserView
