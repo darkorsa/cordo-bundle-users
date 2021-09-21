@@ -59,8 +59,7 @@ class UsersRoutes extends RoutesRegister
         $this->router->addRoute(
             'GET',
             "/context/users",
-            'App\Context\Users\UI\Http\Controller\UserQueriesController@index',
-            [new AclMiddleware($this->container, $this->resource)]
+            'App\Context\Users\UI\Http\Controller\UserQueriesController@index'
         );
     }
 
@@ -101,8 +100,7 @@ class UsersRoutes extends RoutesRegister
         $this->router->addRoute(
             'GET',
             "/context/users/" . static::UUID_PATTERN,
-            'App\Context\Users\UI\Http\Controller\UserQueriesController@get',
-            [new AclMiddleware($this->container, $this->resource)]
+            'App\Context\Users\UI\Http\Controller\UserQueriesController@get'
         );
     }
 
@@ -138,8 +136,7 @@ class UsersRoutes extends RoutesRegister
         $this->router->addRoute(
             'POST',
             "/context/users",
-            'App\Context\Users\UI\Http\Controller\UserCommandsController@create',
-            [new AclMiddleware($this->container, $this->resource)]
+            'App\Context\Users\UI\Http\Controller\UserCommandsController@create'
         );
     }
 
@@ -178,7 +175,6 @@ class UsersRoutes extends RoutesRegister
             'App\Context\Users\UI\Http\Controller\UserCommandsController@update',
             [
                 new OAuth2Middleware($this->container, $this->resource),
-                new AclMiddleware($this->container, $this->resource)
             ]
         );
     }
@@ -208,7 +204,6 @@ class UsersRoutes extends RoutesRegister
             'App\Context\Users\UI\Http\Controller\UserCommandsController@delete',
             [
                 new OAuth2Middleware($this->container, $this->resource),
-                new AclMiddleware($this->container, $this->resource)
             ]
         );
     }
