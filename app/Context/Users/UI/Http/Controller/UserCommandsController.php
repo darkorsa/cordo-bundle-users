@@ -21,10 +21,10 @@ class UserCommandsController extends BaseController
         $params = (array) $request->getParsedBody();
         $service = $this->container->get('context.users.query.service');
 
-        $validator = new NewUserValidator($params);
+        $validator = new NewUserValidator();
         $validator->addCallbackValidator('email', new EmailExistsValidation($service));
 
-        if (!$validator->isValid()) {
+        if (!$validator->isValid($params)) {
             return $this->respondBadRequestError($validator->messages());
         }
 
@@ -46,9 +46,9 @@ class UserCommandsController extends BaseController
         $userId = $request->getAttribute('user_id');
         $params = (array) $request->getParsedBody();
 
-        $validator = new UpdateUserValidator($params);
+        $validator = new UpdateUserValidator();
 
-        if (!$validator->isValid()) {
+        if (!$validator->isValid($params)) {
             return $this->respondBadRequestError($validator->messages());
         }
 

@@ -39,10 +39,10 @@ class CreateNewUserConsoleCommand extends BaseConsoleCommand
         $params = $input->getArguments();
         $service = $this->container->get('context.users.query.service');
 
-        $validator = new NewUserValidator($params);
+        $validator = new NewUserValidator();
         $validator->addCallbackValidator('email', new EmailExistsValidation($service));
 
-        if (!$validator->isValid()) {
+        if (!$validator->isValid($params)) {
             array_map(static function ($message) use ($output) {
                 $output->write('<error>');
                 $output->writeln($message);

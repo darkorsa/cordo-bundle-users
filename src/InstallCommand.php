@@ -39,7 +39,7 @@ class InstallCommand extends BaseConsoleCommand
         try {
             $installer = new BundleInstaller($rootPath, $targetPath, self::DEFAULT_CONTEXT, $params->context);
             $installer->copyFiles();
-            $installer->registerModules('Acl', 'Auth', 'Users');
+            $installer->registerModules('Acl', 'Users');
             $installer->createSchema(
                 "App\\{$params->context}\\Users\Domain\User",
                 "App\\{$params->context}\\Acl\Domain\Acl"
