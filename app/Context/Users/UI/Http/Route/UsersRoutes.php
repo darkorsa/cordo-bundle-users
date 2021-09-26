@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Context\Users\UI\Http\Route;
 
 use Cordo\Core\UI\Http\Middleware\OAuth2Middleware;
-use App\Context\Shared\UI\Http\Middleware\AclMiddleware;
 use Cordo\Core\Application\Service\Register\RoutesRegister;
 
 class UsersRoutes extends RoutesRegister

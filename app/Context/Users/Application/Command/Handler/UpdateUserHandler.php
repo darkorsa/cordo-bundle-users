@@ -28,14 +28,9 @@ class UpdateUserHandler
     public function __invoke(UpdateUser $command): void
     {
         $user = $this->users->find($command->id());
-
-        $user = new User(
-            new UserId($command->id()),
+        $user->update(
             new UserEmail($command->email()),
-            new UserPasswordHash($user->password()),
             new UserActive($command->isActive()),
-            $user->createdAt(),
-            $command->updatedAt()
         );
 
         $this->users->update($user);

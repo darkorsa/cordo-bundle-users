@@ -32,9 +32,7 @@ class CreateNewUserHandler
             UserId::random(),
             new UserEmail($command->email()),
             new UserPasswordHash((new UserPassword($command->password()))->value()),
-            new UserActive(true),
-            $command->createdAt(),
-            $command->createdAt()
+            new UserActive(true)
         );
 
         $this->users->add($user);

@@ -14,11 +14,10 @@ use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Output\OutputInterface;
 use App\Context\Users\UI\Validator\NewUserValidator;
 use App\Context\Users\Application\Command\CreateNewUser;
-use App\Context\Users\UI\Validator\EmailExistsValidation;
 
 class CreateNewUserConsoleCommand extends BaseConsoleCommand
 {
-    protected static $defaultName = 'cordo/context:create-user';
+    protected static $defaultName = 'context:create-user';
 
     protected function configure()
     {
@@ -39,9 +38,7 @@ class CreateNewUserConsoleCommand extends BaseConsoleCommand
         $params = $input->getArguments();
         $service = $this->container->get('context.users.query.service');
 
-        $validator = new NewUserValidator();
-        $validator->addCallbackValidator('email', new EmailExistsValidation($service));
-
+        $validator = new NewUserValidator($service);
         if (!$validator->isValid($params)) {
             array_map(static function ($message) use ($output) {
                 $output->write('<error>');
@@ -55,8 +52,7 @@ class CreateNewUserConsoleCommand extends BaseConsoleCommand
 
         $command = new CreateNewUser(
             (string) $params->email,
-            (string) $params->password,
-            new DateTime()
+            (string) $params->password
         );
 
         $this->commandBus->handle($command);

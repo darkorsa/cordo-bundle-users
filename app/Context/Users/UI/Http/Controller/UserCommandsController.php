@@ -12,7 +12,6 @@ use App\Context\Users\Application\Command\DeleteUser;
 use App\Context\Users\Application\Command\UpdateUser;
 use App\Context\Users\UI\Validator\UpdateUserValidator;
 use App\Context\Users\Application\Command\CreateNewUser;
-use App\Context\Users\UI\Validator\EmailExistsValidation;
 
 class UserCommandsController extends BaseController
 {
@@ -21,9 +20,7 @@ class UserCommandsController extends BaseController
         $params = (array) $request->getParsedBody();
         $service = $this->container->get('context.users.query.service');
 
-        $validator = new NewUserValidator();
-        $validator->addCallbackValidator('email', new EmailExistsValidation($service));
-
+        $validator = new NewUserValidator($service);
         if (!$validator->isValid($params)) {
             return $this->respondBadRequestError($validator->messages());
         }
@@ -32,8 +29,7 @@ class UserCommandsController extends BaseController
 
         $command = new CreateNewUser(
             (string) $params->email,
-            (string) $params->password,
-            new DateTime()
+            (string) $params->password
         );
 
         $this->commandBus->handle($command);
@@ -47,7 +43,6 @@ class UserCommandsController extends BaseController
         $params = (array) $request->getParsedBody();
 
         $validator = new UpdateUserValidator();
-
         if (!$validator->isValid($params)) {
             return $this->respondBadRequestError($validator->messages());
         }
