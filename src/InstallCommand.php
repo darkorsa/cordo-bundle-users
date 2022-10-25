@@ -2,7 +2,7 @@
 
 namespace Cordo\Bundle\Users;
 
-use Symfony\Component\Console\Command\Command;
+use Cordo\Core\Application\App;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputDefinition;
@@ -34,12 +34,11 @@ class InstallCommand extends BaseConsoleCommand
         $params = (object) $input->getArguments();
 
         $rootPath = realpath(dirname(__FILE__) . '/../app/' . self::DEFAULT_CONTEXT . '/');
-        $targetPath = app_path() . $params->context;
+        $targetPath = App::rootPath("app/{$params->context}");
 
         try {
             $installer = new BundleInstaller($rootPath, $targetPath, self::DEFAULT_CONTEXT, $params->context);
             $installer->copyFiles();
-            $installer->registerModules('Users');
             $installer->createSchema(
                 "App\\{$params->context}\\Users\Domain\User",
             );

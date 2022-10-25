@@ -6,9 +6,9 @@ namespace App\Context\Users\Application\Command\Handler;
 
 use Laminas\Mail\Message;
 use League\Plates\Engine;
-use Symfony\Component\Translation\Translator;
-use App\Context\Users\Application\Command\SendUserWelcomeMessage;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Cordo\Core\Infractructure\Mailer\ZendMail\MailerInterface;
+use App\Context\Users\Application\Command\SendUserWelcomeMessage;
 
 class SendUserWelcomeMessageHandler
 {
@@ -18,7 +18,7 @@ class SendUserWelcomeMessageHandler
 
     private $translator;
 
-    public function __construct(MailerInterface $mailer, Engine $templates, Translator $translator)
+    public function __construct(MailerInterface $mailer, Engine $templates, TranslatorInterface $translator)
     {
         $this->mailer = $mailer;
         $this->templates = $templates;
