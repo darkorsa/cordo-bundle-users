@@ -42,6 +42,7 @@ class User extends AggregateRoot
     ) {
         $this->email = $email->value();
         $this->isActive = $isActive->value();
+        $this->updatedAt = new DateTime();
     }
 
     public function created()

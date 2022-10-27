@@ -2,7 +2,6 @@
 
 namespace App\Context\Users\UI\Http\Controller;
 
-use DateTime;
 use Ramsey\Uuid\Uuid;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -55,7 +54,6 @@ class UserCommandsController extends BaseController
             $user->id(),
             (string) $params->email,
             (bool) $params->active,
-            new DateTime()
         );
 
         $this->commandBus->handle($command);

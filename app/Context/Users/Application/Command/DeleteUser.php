@@ -6,15 +6,7 @@ namespace App\Context\Users\Application\Command;
 
 class DeleteUser
 {
-    private $id;
-
-    public function __construct(string $id)
+    public function __construct(public readonly string $id)
     {
-        $this->id = $id;
-    }
-
-    public function id(): string
-    {
-        return $this->id;
     }
 }

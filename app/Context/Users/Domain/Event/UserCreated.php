@@ -8,20 +8,12 @@ use League\Event\AbstractEvent;
 
 class UserCreated extends AbstractEvent
 {
-    private $email;
-
-    public function __construct(string $email)
+    public function __construct(public readonly string $email)
     {
-        $this->email = $email;
     }
 
     public function getName()
     {
-        return 'context.users.created';
-    }
-
-    public function email(): string
-    {
-        return $this->email;
+        return 'context_users.created';
     }
 }

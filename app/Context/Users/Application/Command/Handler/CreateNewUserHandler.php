@@ -30,8 +30,8 @@ class CreateNewUserHandler
     {
         $user = new User(
             UserId::random(),
-            new UserEmail($command->email()),
-            new UserPasswordHash((new UserPassword($command->password()))->value()),
+            new UserEmail($command->email),
+            new UserPasswordHash((new UserPassword($command->password))->value()),
             new UserActive(true)
         );
 

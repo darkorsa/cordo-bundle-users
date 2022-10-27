@@ -22,7 +22,7 @@ class DeleteUserHandler
 
     public function __invoke(DeleteUser $command): void
     {
-        $user = $this->users->find($command->id());
+        $user = $this->users->find($command->id);
 
         $this->users->delete($user);
     }

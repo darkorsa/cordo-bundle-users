@@ -8,7 +8,9 @@ use Cordo\Core\Application\Queue\QueueMessage;
 
 class SendUserWelcomeMessage extends QueueMessage
 {
-    public string $email;
-
-    public string $locale;
+    public function __construct(
+        public readonly string $email,
+        public readonly string $locale,
+    ) {
+    }
 }

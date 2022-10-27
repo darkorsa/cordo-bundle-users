@@ -5,13 +5,10 @@ declare(strict_types=1);
 namespace App\Context\Users\Application\Command\Handler;
 
 use League\Event\EmitterInterface;
-use App\Context\Users\Domain\User;
 use App\Context\Users\Domain\UserEmail;
 use App\Context\Users\Domain\UserActive;
-use App\Context\Users\Domain\UserPasswordHash;
 use App\Context\Users\Domain\UserRepository;
 use App\Context\Users\Application\Command\UpdateUser;
-use App\Context\Users\Domain\UserId;
 
 class UpdateUserHandler
 {
@@ -27,10 +24,10 @@ class UpdateUserHandler
 
     public function __invoke(UpdateUser $command): void
     {
-        $user = $this->users->find($command->id());
+        $user = $this->users->find($command->id);
         $user->update(
-            new UserEmail($command->email()),
-            new UserActive($command->isActive()),
+            new UserEmail($command->email),
+            new UserActive($command->isActive),
         );
 
         $this->users->update($user);

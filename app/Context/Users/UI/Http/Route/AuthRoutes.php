@@ -39,7 +39,7 @@ class AuthRoutes extends RoutesRegister
             function () {
                 $request = Request::createFromGlobals();
 
-                $response = $this->container->get('context\users_oauth_server')->handleTokenRequest($request);
+                $response = $this->container->get("{$this->resource}_oauth_server")->handleTokenRequest($request);
 
                 if ($response->getStatusText() === 'OK') {
                     $response->setParameter('login', $request->request('username'));
@@ -75,7 +75,7 @@ class AuthRoutes extends RoutesRegister
             '/context/users/token-refresh',
             function () {
                 $response = $this->container
-                    ->get('context\users_oauth_server')
+                    ->get("{$this->resource}_oauth_server")
                     ->handleTokenRequest(Request::createFromGlobals());
 
                 return new Response($response->getStatusCode(), [], json_encode($response->getParameters()));
