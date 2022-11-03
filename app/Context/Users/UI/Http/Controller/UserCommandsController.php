@@ -19,9 +19,9 @@ class UserCommandsController extends BaseController
         $params = (array) $request->getParsedBody();
         $service = $this->container->get('context.users.query.service');
 
-        $validator = new NewUserValidator($service);
-        if (!$validator->isValid($params)) {
-            return $this->respondBadRequestError($validator->messages());
+        $validator = new NewUserValidator($service, $params);
+        if ($validator->fails()) {
+            return $this->respondBadRequestError($validator->messages()->toArray());
         }
 
         $params = (object) $params;
@@ -41,9 +41,9 @@ class UserCommandsController extends BaseController
         $userId = $request->getAttribute('user_id');
         $params = (array) $request->getParsedBody();
 
-        $validator = new UpdateUserValidator();
-        if (!$validator->isValid($params)) {
-            return $this->respondBadRequestError($validator->messages());
+        $validator = new UpdateUserValidator($params);
+        if ($validator->fails()) {
+            return $this->respondBadRequestError($validator->messages()->toArray());
         }
 
         $user = $this->container->get('context.users.query.service')->getOneById($userId);

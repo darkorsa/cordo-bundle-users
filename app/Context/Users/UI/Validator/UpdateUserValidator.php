@@ -2,22 +2,20 @@
 
 namespace App\Context\Users\UI\Validator;
 
-use Particle\Validator\Rule\InArray;
 use App\Context\Users\Domain\UserEmail;
 use Cordo\Core\UI\Validator\AbstractValidator;
 
 class UpdateUserValidator extends AbstractValidator
 {
-    protected function validationRules(): void
+    protected function rules(): array
     {
-        $this->validator
-            ->required('email')
-            ->email()
-            ->lengthBetween(0, UserEmail::EMAIL_MAX_LENGTH);
-
-        $this->validator
-            ->required('active')
-            ->integer()
-            ->inArray([0, 1], InArray::NOT_STRICT);
+        return [
+            'email' => [
+                'required',
+                'email:filter',
+                'max:' . UserEmail::EMAIL_MAX_LENGTH,
+            ],
+            'active' => 'required|boolean'
+        ];
     }
 }
