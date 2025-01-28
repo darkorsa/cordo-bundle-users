@@ -4,21 +4,19 @@ declare(strict_types=1);
 
 namespace App\Context\Users\UI\Console\Command;
 
-use DateTime;
-use Ramsey\Uuid\Uuid;
 use Symfony\Component\Console\Input\InputOption;
-use Cordo\Core\UI\Console\Command\BaseConsoleCommand;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputDefinition;
-use Symfony\Component\Console\Output\OutputInterface;
 use App\Context\Users\UI\Validator\NewUserValidator;
+use Symfony\Component\Console\Input\InputDefinition;
+use Cordo\Core\UI\Console\Command\BaseConsoleCommand;
+use Symfony\Component\Console\Output\OutputInterface;
 use App\Context\Users\Application\Command\CreateNewUser;
 
+#[AsCommand(name: 'context:create-user')]
 class CreateNewUserConsoleCommand extends BaseConsoleCommand
 {
-    protected static $defaultName = 'context:create-user';
-
     protected function configure()
     {
         $this
@@ -38,13 +36,14 @@ class CreateNewUserConsoleCommand extends BaseConsoleCommand
         $params = $input->getArguments();
         $service = $this->container->get('context.users.query.service');
 
-        $validator = new NewUserValidator($service);
-        if (!$validator->isValid($params)) {
+        $validator = new NewUserValidator($service, $params);
+
+        if ($validator->fails()) {
             array_map(static function ($message) use ($output) {
                 $output->write('<error>');
                 $output->writeln($message);
                 $output->write('</error>');
-            }, $validator->messages());
+            }, $validator->messages()->toArray());
             exit;
         }
 

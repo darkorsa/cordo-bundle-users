@@ -4,6 +4,7 @@ namespace Cordo\Bundle\Users;
 
 use Cordo\Core\Application\App;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputDefinition;
 use Cordo\Core\UI\Console\Command\BaseConsoleCommand;
@@ -11,11 +12,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Cordo\Core\Application\Service\Bundle\BundleInstaller;
 use Cordo\Core\Application\Service\Bundle\BundleInstallerException;
 
+#[AsCommand(name: 'cordo-bundle-users:install')]
 class InstallCommand extends BaseConsoleCommand
 {
     private const DEFAULT_CONTEXT = 'Context';
-
-    protected static $defaultName = 'cordo-bundle-users:install';
 
     protected function configure()
     {
