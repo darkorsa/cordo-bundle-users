@@ -33,7 +33,6 @@ class UserDoctrineQuery extends BaseQuery implements UserQuery
         $queryBuilder = $this->createQB();
         $queryBuilder
             ->select('u.*')
-            ->addSelect('ouuid_to_uuid(u.id_user) as id_user')
             ->from('context_user', 'u');
 
         $usersData = $this->all($queryBuilder, new UserDoctrineFilter($userFilter));
@@ -45,7 +44,6 @@ class UserDoctrineQuery extends BaseQuery implements UserQuery
     {
         $queryBuilder
             ->select('u.*')
-            ->addSelect('ouuid_to_uuid(u.id_user) as id_user')
             ->from('context_user', 'u');
 
         $userData = $this->assoc($queryBuilder, new UserDoctrineFilter($userFilter));

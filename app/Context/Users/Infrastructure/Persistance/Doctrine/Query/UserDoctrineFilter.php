@@ -19,7 +19,7 @@ class UserDoctrineFilter extends QueryBuilderFilter
 
         if ($this->getFilter('idUser') !== null) {
             $queryBuilder
-                ->andWhere('ouuid_to_uuid(u.id_user) = :userId')
+                ->andWhere('u.id_user = :userId')
                 ->setParameter('userId', $this->queryFilter->getFilter('idUser'));
         }
 
